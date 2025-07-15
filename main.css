@@ -1,9 +1,8 @@
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Roboto", sans-serif;
+    font-family: "Caveat", cursive;
 }
 
 body {
@@ -18,7 +17,7 @@ header {
 }
 
 header h1 {
-    font-size: 40px;
+    font-size: 50px;
 }
 
 header img {
@@ -48,7 +47,7 @@ form input {
     border-bottom: 2px solid #000;
     border-radius: 4px;
     flex-grow: 1; /* Faz os inputs ocuparem o espaço disponível */
-
+    font-size: 24px;
 }
 
 form button {
@@ -58,17 +57,12 @@ form button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-}
-
-ul{
-    padding: 16px;
     font-size: 24px;
-    font-weight: bold;
 }
 
 li {
-
-    font-size: 18px;
+    font-size: 24px;
+    font-weight: bold;
     padding: 16px 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
