@@ -1,28 +1,54 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('form-tarefas');
     const nomesTarefas = [];
-    let itensListaHTML = '';
-    const listaDeTarefas = document.getElementById('lista-de-tarefas'); // Referência direta à UL
+    const listaDeTarefas = document.getElementById('lista-de-tarefas');
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         adicionaItemNaLista();
-        atualizaLista();
     });
 
     listaDeTarefas.addEventListener('click', function(e) {
-        // Verifica se o clique foi em um <li>
-        if (e.target.tagName === 'LI') {
-            // Alterna a classe 'tarefa-concluida' no <li> clicado
-            e.target.classList.toggle('tarefa-concluida');
+        // Encontra o <li> pai do elemento clicado
+        const itemClicado = e.target.closest('li');
+
+        if (!itemClicado) return; // Se não clicou dentro de um <li>, sai.
+
+        // Se o clique foi no botão/span de exclusão (o 'X')
+        if (e.target.classList.contains('excluir-tarefa')) {
+            const nomeTarefaRemover = itemClicado.querySelector('.texto-tarefa').textContent.toLowerCase().trim();
+
+            listaDeTarefas.removeChild(itemClicado);
+
+            const index = nomesTarefas.indexOf(nomeTarefaRemover);
+            if (index > -1) {
+                nomesTarefas.splice(index, 1);
+            }
+        }
+        // Se o clique foi no ícone de cheque (o .checkbox-icon)
+        else if (e.target.classList.contains('checkbox-icon')) {
+            itemClicado.classList.toggle('tarefa-concluida');
+            // Alterna o ícone de fa-square para fa-check-square e vice-versa
+            e.target.classList.toggle('fa-square');
+            e.target.classList.toggle('fa-check-square');
+        }
+        // Se o clique foi em qualquer outro lugar dentro do <li> (principalmente no texto da tarefa)
+        else {
+            itemClicado.classList.toggle('tarefa-concluida');
+            // Encontra o ícone de cheque dentro do <li> e alterna seu estado visual
+            const checkboxIcon = itemClicado.querySelector('.checkbox-icon');
+            if (checkboxIcon) {
+                checkboxIcon.classList.toggle('fa-square');
+                checkboxIcon.classList.toggle('fa-check-square');
+            }
         }
     });
 
     function adicionaItemNaLista() {
         const inputNomeTarefas = document.getElementById('nome-tarefas');
-        const nomeDigitado = inputNomeTarefas.value.trim(); // Use .trim() para remover espaços em branco
+        const nomeDigitado = inputNomeTarefas.value.trim();
 
-        if (nomeDigitado === '') { // Impede adicionar tarefas vazias
+        if (nomeDigitado === '') {
             alert('Por favor, digite o nome da tarefa.');
             return;
         }
@@ -34,22 +60,29 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             nomesTarefas.push(nomeNormalizado);
 
-            // Cria o elemento <li> diretamente para facilitar a manipulação
             const novoItemLi = document.createElement('li');
-            novoItemLi.textContent = nomeDigitado; // Define o texto do item
+            
+            // 1. Ícone de Cheque (Font Awesome)
+            const checkboxIcon = document.createElement('i'); // Usamos <i> para ícones do Font Awesome
+            checkboxIcon.classList.add('fa-solid', 'fa-square', 'checkbox-icon'); // Classes do Font Awesome e nossa própria classe
+            novoItemLi.appendChild(checkboxIcon);
 
-            // Adiciona o novo item <li> à lista <ul>
+            // 2. Span para o texto da tarefa
+            const textoTarefa = document.createElement('span');
+            textoTarefa.textContent = nomeDigitado;
+            textoTarefa.classList.add('texto-tarefa'); // Adiciona uma classe para facilitar a seleção
+            novoItemLi.appendChild(textoTarefa);
+
+            // 3. Span para o botão de exclusão 'X'
+            const botaoExcluir = document.createElement('span');
+            botaoExcluir.textContent = 'X';
+            botaoExcluir.classList.add('excluir-tarefa');
+            novoItemLi.appendChild(botaoExcluir);
+
             listaDeTarefas.appendChild(novoItemLi);
         }
 
         inputNomeTarefas.value = '';
         inputNomeTarefas.focus();
-    }
-
-    // A função atualizaLista não é mais necessária para adicionar itens
-    // pois estamos adicionando diretamente ao DOM via appendChild
-    function atualizaLista() {
-        // Esta função pode ser usada para outras atualizações, se necessário.
-        // No entanto, para adicionar itens, a abordagem com appendChild é mais eficiente.
     }
 });

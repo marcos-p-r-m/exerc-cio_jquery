@@ -65,9 +65,48 @@ li {
     font-weight: bold;
     padding: 16px 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex; /* Para alinhar o texto e o 'X' na mesma linha */
+    justify-content: space-between; /* Para empurrar o 'X' para a direita */
+    cursor: pointer; /* Indica que o item pode ser clicado para marcar/desmarcar */
 }
 
-.tarefa-concluida {
-    text-decoration: line-through;
-    opacity: 0.5;
+li span:first-child { /* Estiliza o texto da tarefa */
+    flex-grow: 1; /* Faz o texto ocupar o máximo de espaço possível */
+}
+
+.excluir-tarefa {
+    color: #ff0000; /* Cor vermelha para o 'X' */
+    font-weight: bold;
+    margin-left: 10px; /* Espaçamento à esquerda do 'X' */
+    cursor: pointer; /* Indica que o 'X' é clicável */
+    padding: 3px; /* Para facilitar o clique */
+    border-radius: 6px; /* Bordas arredondadas */
+    transition: background-color 0.2s ease; /* Transição suave para o hover */
+}
+
+.excluir-tarefa:hover {
+    background-color: rgba(255, 0, 0, 0.1); /* Fundo levemente vermelho ao passar o mouse */
+}
+
+.tarefa-concluida .texto-tarefa {
+    text-decoration: line-through; /* Aplica o risco APENAS ao texto da tarefa */
+    opacity: 0.5; /* Aplica a opacidade APENAS ao texto da tarefa */
+}
+
+/* Estilização para o ícone de cheque */
+.checkbox-icon {
+    font-size: 25px; /* Tamanho do ícone */
+    margin-right: 10px; /* Espaço entre o ícone e o texto da tarefa */
+    color: #645f5f; /* Cor padrão para o ícone não marcado */
+    cursor: pointer; /* Indica que o ícone é clicável */
+    transition: color 0.2s ease; /* Transição suave para a mudança de cor */
+}
+
+.texto-tarefa {
+    flex-grow: 1; /* Faz o texto ocupar o máximo de espaço possível */
+    cursor: pointer;
+}
+
+.tarefa-concluida .checkbox-icon {
+    color: #009432;
 }
